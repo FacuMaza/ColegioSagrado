@@ -122,3 +122,39 @@ class CursoMateriaForm(forms.ModelForm):
         }
 
 
+#FORMS DE NOTAS
+class NotasForm(forms.ModelForm):
+    class Meta:
+        model = Notas
+        fields = [
+            'trimestre',
+            'PROCESO',
+            'PARTICIPACION_EN_CLASE',
+            'TP_INDIVIDUAL_1',
+            'TP_INDIVIDUAL_2',
+            'LECCION_ORAL_INDIVIDUAL',
+            'EXPOSICION_ORAL_INDIVIDUAL',
+            'EVALUACION_ESCRITA',
+            'EXPOSICION1_GRUPAL_NOTA_GRUPAL',
+            'EXPOSICION1_GRUPAL_NOTA_INDIVIDUAL',
+            'EXPOSICION1_GRUPAL_SOPORTE_PRESENTACION',
+            'EXPOSICION2_GRUPAL_NOTA_GRUPAL',
+            'EXPOSICION2_GRUPAL_NOTA_INDIVIDUAL',
+            'EXPOSICION2_GRUPAL_SOPORTE_PRESENTACION',
+            'LABORATORIO_Y_TALLER',
+            'CARPETA',
+            'MATERIAL',
+            'CONDUCTA',
+        ]
+
+
+class MateriaAlumnoForm(forms.ModelForm):
+    class Meta:
+        model = MateriaAlumno
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Define querysets para los campos ForeignKey
+        self.fields['cursomateria'] = forms.ModelChoiceField(queryset=CursoMateria.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+        self.fields['matricula'] = forms.ModelChoiceField(queryset=Matriculas.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))

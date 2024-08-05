@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Gestionar Notas de {{ cursomateria.materia }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="matricula_id" value="{{ matricula.id_alumno.id }}">
+    <button type="submit">Guardar Notas</button>
+  </form>
+  <a href="{% url 'cursos' cursomateria.curso.id %}">Volver al Curso</a>
+{% endblock %}

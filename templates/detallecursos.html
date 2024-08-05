@@ -4,7 +4,7 @@
 <ul>
     {% for materia in materias %}
     <li>
-        <a href="{% url 'planilla_notas' curso_id materia.materia.id_materia %}"> 
+        <a href="{% url 'gestionar_notas' curso_id materia.materia.id_materia %}"> 
             <b>{{ materia.materia.descripcion }}</b> 
         </a>
         - {{ materia.docente.nombre }} ({{ materia.codigo }})

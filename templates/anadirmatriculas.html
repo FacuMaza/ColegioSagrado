@@ -1,0 +1,8 @@
+{% extends "baseconfiguracion.html" %}
+
+{% block content %}
+  <h2>Matrícula Generada</h2>
+  <p>Alumno: {{ alumno.nombre }} {{ alumno.apellido }}</p>
+  <p>Fecha de Creación: {{ matricula.fecha_creacion }}</p>
+  <a href="{% url 'index' %}">Volver</a>  <!-- Cambia 'index' por la vista a la que quieras volver -->
+{% endblock %}

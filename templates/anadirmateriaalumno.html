@@ -1,0 +1,12 @@
+{% extends "baseconfiguracion.html" %}
+{% block content %}
+
+<h1>Agregar RELACION MATERIA ALUMNO</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.cursomateria.label_tag }} {{ form.cursomateria }} 
+    {{ form.matricula.label_tag }} {{ form.matricula }}
+    <button type="submit">Guardar</button>
+</form>
+
+{% endblock %}

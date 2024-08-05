@@ -57,7 +57,7 @@ urlpatterns = [
 
 
 
-    path('anadirmatriculas/<int:id_alumno>/', views.anadirmatriculas, name= "anadirmatriculas"),# generar matriculas
+    path('anadirmatriculas/<int:alumno_id>/', views.anadirmatriculas, name='anadirmatriculas'),# generar matriculas
     path('ver_matriculas/<int:id_alumno>/', views.ver_matriculas, name='ver_matriculas'), # VER MATRICULAS
 
 
@@ -65,7 +65,9 @@ urlpatterns = [
 
 
 
-    
-    
+     path('notas/gestionar/<int:curso_materia_id>/<int:matricula_id>/', views.gestionar_notas, name='gestionar_notas'),
+
+    path('materiasalumnos/', views.materia_alumno_create, name='materiasalumnos'),# MATERIAS ALUMNOS     
 ]
+
 

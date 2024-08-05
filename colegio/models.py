@@ -170,6 +170,9 @@ class Docentes(models.Model):
     def __str__(self):
         return f"{self.nombre} - {self.apellido}"
 
+
+
+
 # MODELO PARA RELACIONAR CURSO MATERIA
 
 class CursoMateria(models.Model):
@@ -179,7 +182,7 @@ class CursoMateria(models.Model):
     codigo = models.CharField(max_length=50)
 
     def _str_(self):
-        return f"{self.codigo}"
+        return f"{self.materia}"
     
 
 
@@ -187,16 +190,25 @@ class CursoMateria(models.Model):
 # MODELO PARA CARGAR MATRICULAS
 class Matriculas(models.Model):
     id_alumno = models.ForeignKey(Alumnos, on_delete=models.CASCADE)
-    matricula = models.CharField(max_length=255)
     fecha_creacion = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.matricula}"
+        return f"{self.id_alumno}"
+
+class MateriaAlumno(models.Model):
+    cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE)
+    matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)
 
 
-class NotasPrimerTrimestre(models.Model):
-    id_cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE,default=None)
+class Notas(models.Model):
+    TRIMESTRES = [
+        (1, 'Primer Trimestre'),
+        (2, 'Segundo Trimestre'),
+        (3, 'Tercer Trimestre'),
+    ]
+    id_cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE, default=None)
     id_matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)
+    trimestre = models.IntegerField(choices=TRIMESTRES)
     PROCESO = models.FloatField(blank=True, null=True)
     PARTICIPACION_EN_CLASE = models.FloatField(blank=True, null=True)
     TP_INDIVIDUAL_1 = models.FloatField(blank=True, null=True)
@@ -216,53 +228,4 @@ class NotasPrimerTrimestre(models.Model):
     CONDUCTA = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"Notas Primer Trimestre"
-
-class NotasSegundoTrimestre(models.Model):
-    id_cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE,default=None)
-    id_matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)
-    PROCESO = models.FloatField(blank=True, null=True)
-    PARTICIPACION_EN_CLASE = models.FloatField(blank=True, null=True)
-    TP_INDIVIDUAL_1 = models.FloatField(blank=True, null=True)
-    TP_INDIVIDUAL_2 = models.FloatField(blank=True, null=True)
-    LECCION_ORAL_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EXPOSICION_ORAL_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EVALUACION_ESCRITA = models.FloatField(blank=True, null=True)
-    EXPOSICION1_GRUPAL_NOTA_GRUPAL = models.FloatField(blank=True, null=True)
-    EXPOSICION1_GRUPAL_NOTA_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EXPOSICION1_GRUPAL_SOPORTE_PRESENTACION = models.FloatField(blank=True, null=True)
-    EXPOSICION2_GRUPAL_NOTA_GRUPAL = models.FloatField(blank=True, null=True)
-    EXPOSICION2_GRUPAL_NOTA_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EXPOSICION2_GRUPAL_SOPORTE_PRESENTACION = models.FloatField(blank=True, null=True)
-    LABORATORIO_Y_TALLER = models.FloatField(blank=True, null=True)
-    CARPETA = models.FloatField(blank=True, null=True)
-    MATERIAL = models.FloatField(blank=True, null=True)
-    CONDUCTA = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"Notas Primer Trimestre"
-
-
-class NotasTercerTrimestre(models.Model):
-    id_cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE,default=None)
-    id_matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)
-    PROCESO = models.FloatField(blank=True, null=True)
-    PARTICIPACION_EN_CLASE = models.FloatField(blank=True, null=True)
-    TP_INDIVIDUAL_1 = models.FloatField(blank=True, null=True)
-    TP_INDIVIDUAL_2 = models.FloatField(blank=True, null=True)
-    LECCION_ORAL_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EXPOSICION_ORAL_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EVALUACION_ESCRITA = models.FloatField(blank=True, null=True)
-    EXPOSICION1_GRUPAL_NOTA_GRUPAL = models.FloatField(blank=True, null=True)
-    EXPOSICION1_GRUPAL_NOTA_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EXPOSICION1_GRUPAL_SOPORTE_PRESENTACION = models.FloatField(blank=True, null=True)
-    EXPOSICION2_GRUPAL_NOTA_GRUPAL = models.FloatField(blank=True, null=True)
-    EXPOSICION2_GRUPAL_NOTA_INDIVIDUAL = models.FloatField(blank=True, null=True)
-    EXPOSICION2_GRUPAL_SOPORTE_PRESENTACION = models.FloatField(blank=True, null=True)
-    LABORATORIO_Y_TALLER = models.FloatField(blank=True, null=True)
-    CARPETA = models.FloatField(blank=True, null=True)
-    MATERIAL = models.FloatField(blank=True, null=True)
-    CONDUCTA = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"Notas Primer Trimestre"
+        return f"Notas {self.get_trimestre_display()}"

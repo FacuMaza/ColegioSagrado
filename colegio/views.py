@@ -1,11 +1,13 @@
-from django.http import HttpResponse
+from pyexpat.errors import messages
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.views.generic.edit import CreateView
 from .models import *
 from django.contrib.auth.models import User
-from .forms import AlumnosForm, CasasForm, CategoriasProfesoresForm, ColegioForm, CursoForm, CursoMateriaForm, DocentesForm, FamiliasForm, LocalidadForm,MateriaForm, NacionalidadForm, NivelProfesoresForm, SexoForm
+from .forms import AlumnosForm, CasasForm, CategoriasProfesoresForm, ColegioForm, CursoForm, CursoMateriaForm, DocentesForm, FamiliasForm, LocalidadForm, MateriaAlumnoForm,MateriaForm, NacionalidadForm, NivelProfesoresForm, NotasForm, SexoForm
 
 
 def index(request):
@@ -185,7 +187,11 @@ def anadiralumno(request):
         form = AlumnosForm(request.POST)
         if form.is_valid():
             nuevo_alumno = form.save()
-            return redirect('anadirmatriculas', alumno_id=nuevo_alumno.id_alumno)
+            Matriculas.objects.create(
+                id_alumno=nuevo_alumno,
+                fecha_creacion=timezone.now()
+            )
+            return HttpResponseRedirect(reverse('anadirmatriculas', kwargs={'alumno_id': nuevo_alumno.pk}))
     else:
         form = AlumnosForm()
     return render(request, 'anadiralumno.html', {'form': form})
@@ -205,15 +211,10 @@ def detallealumno(request,alumno_id):
 
 
 # VIWS PARA CARGAR ALUMNOS
-def anadirmatriculas(request, id_alumno,):
-    alumno = Alumnos.objects.get(pk=id_alumno) # Obtén el alumno por su ID
-    familia = alumno.id_familia # Obtén el objeto familia asociado al alumno
-
-    context = {
-        'alumno': alumno, # Pasa el objeto alumno al contexto
-        'familia': familia # Pasa el objeto familia al contexto
-    }
-    return render(request, 'generarmatricula.html', context)
+def anadirmatriculas(request, alumno_id):
+    alumno = get_object_or_404(Alumnos, id=alumno_id)
+    matricula = get_object_or_404(Matriculas, id_alumno=alumno)
+    return render(request, 'anadirmatriculas.html', {'alumno': alumno, 'matricula': matricula})
 
 
 
@@ -317,3 +318,35 @@ def anadircursomateriasdocente(request):
 
 
 
+# VIWS PARA CARGAR NOTAS
+
+def gestionar_notas(request, curso_materia_id, matricula_id):
+    cursomateria = get_object_or_404(CursoMateria, id=curso_materia_id)
+    matricula = get_object_or_404(MateriaAlumno, cursomateria=cursomateria, matricula__id_alumno__id=matricula_id)
+    matricula = matricula.matricula 
+
+    if request.method == 'POST':
+        form = NotasForm(request.POST)
+        if form.is_valid():
+            notas = form.save(commit=False)
+            notas.id_cursomateria = cursomateria
+            notas.id_matricula = matricula
+            notas.save()
+            return HttpResponseRedirect(reverse('notas_detalle', args=[notas.id]))
+    else:
+        form = NotasForm()
+
+    return render(request, 'gestionar_notas.html', {'form': form, 'cursomateria': cursomateria, 'matricula': matricula})
+
+
+
+def materia_alumno_create(request):
+    if request.method == 'POST':
+        form = MateriaAlumnoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('cursos')
+    else:
+        form = MateriaAlumnoForm()
+    context = {'form': form}
+    return render(request, 'anadirmateriaalumno.html', context)

@@ -46,10 +46,6 @@
     <li><strong>Ocupación:</strong> {{ familia.ocupacion_mama }}</li>
     <li><strong>Email:</strong> {{ familia.email_mama }}</li>
 </ul>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+
 
 {% endblock %}
