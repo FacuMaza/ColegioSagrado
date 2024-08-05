@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Detalles de la Nota de {{ alumno.nombre }} {{ alumno.apellido }}</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Materia</th>
+            <th>Proceso</th>
+            <th>Participación</th>
+            <th>TP Individual 1</th>
+            <th>TP Individual 2</th>
+            <th>Lección Oral</th>
+            <th>Exposición Oral</th>
+            <th>Evaluación Escrita</th>
+            <th>Exposición Grupal 1 (Grupo)</th>
+            <th>Exposición Grupal 1 (Individual)</th>
+            <th>Exposición Grupal 1 (Soporte)</th>
+            <th>Exposición Grupal 2 (Grupo)</th>
+            <th>Exposición Grupal 2 (Individual)</th>
+            <th>Exposición Grupal 2 (Soporte)</th>
+            <th>Laboratorio/Taller</th>
+            <th>Carpeta</th>
+            <th>Material</th>
+            <th>Conducta</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ nota.id_notas.cursomateria.materia }}</td>
+            <td>{{ nota.PROCESO }}</td>
+            <td>{{ nota.PARTICIPACION_EN_CLASE }}</td>
+            <td>{{ nota.TP_INDIVIDUAL_1 }}</td>
+            <td>{{ nota.TP_INDIVIDUAL_2 }}</td>
+            <td>{{ nota.LECCION_ORAL_INDIVIDUAL }}</td>
+            <td>{{ nota.EXPOSICION_ORAL_INDIVIDUAL }}</td>
+            <td>{{ nota.EVALUACION_ESCRITA }}</td>
+            <td>{{ nota.EXPOSICION1_GRUPAL_NOTA_GRUPAL }}</td>
+            <td>{{ nota.EXPOSICION1_GRUPAL_NOTA_INDIVIDUAL }}</td>
+            <td>{{ nota.EXPOSICION1_GRUPAL_SOPORTE_PRESENTACION }}</td>
+            <td>{{ nota.EXPOSICION2_GRUPAL_NOTA_GRUPAL }}</td>
+            <td>{{ nota.EXPOSICION2_GRUPAL_NOTA_INDIVIDUAL }}</td>
+            <td>{{ nota.EXPOSICION2_GRUPAL_SOPORTE_PRESENTACION }}</td>
+            <td>{{ nota.LABORATORIO_Y_TALLER }}</td>
+            <td>{{ nota.CARPETA }}</td>
+            <td>{{ nota.MATERIAL }}</td>
+            <td>{{ nota.CONDUCTA }}</td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}

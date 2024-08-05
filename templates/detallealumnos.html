@@ -1,0 +1,93 @@
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Detalles del Alumno</h2>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="2">Información del Alumno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Apellido de la Familia</th>
+                        <td>
+                            
+                            <a href="{% url 'detallefamilia' familia_id %}" class="btn btn-primary btn-sm">
+                                {{ alumno.id_familia }}
+                                
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ alumno.Nombre }} {{ alumno.Apellido }}</td>
+                    </tr>
+                    <tr>
+                        <th>DNI</th>
+                        <td>{{ alumno.DNI }}</td>
+                    </tr>
+                    <tr>
+                        <th>Apellido de la Familia</th>
+                        <td>{{ alumno.id_familia }}</td>
+                    </tr>
+                    <tr>
+                        <th>Correo Electrónico Particular</th>
+                        <td>{{ alumno.Correo_Electronico_Particular }}</td>
+                    </tr>
+                    <tr>
+                        <th>Correo Electrónico Institucional</th>
+                        <td>{{ alumno.Correo_Electronico_Institucional }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dirección</th>
+                        <td>{{ alumno.Direccion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Localidad</th>
+                        <td>{{ alumno.Localidad }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nacionalidad</th>
+                        <td>{{ alumno.Nacionalidad }}</td>
+                    </tr>
+                    <tr>
+                        <th>Colegio</th>
+                        <td>{{ alumno.Colegio }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sexo</th>
+                        <td>{{ alumno.Sexo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de Nacimiento</th>
+                        <td>{{ alumno.Fecha_de_Nacimiento }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lugar de Nacimiento</th>
+                        <td>{{ alumno.Lugar_de_nacimiento }}</td>
+                    </tr>
+                    <tr>
+                        <th>Casas</th>
+                        <td>{{ alumno.Casas }}</td>
+                    </tr>
+                    <tr>
+                        <th>Estado de Dispositivos</th>
+                        <td>{{ alumno.estado_dispositivos }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de Creación</th>
+                        <td>{{ alumno.fecha_creacion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de Modificación</th>
+                        <td>{{ alumno.fecha_modificacion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

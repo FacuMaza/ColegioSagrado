@@ -1,0 +1,33 @@
+{% load static %}
+{% block content %}
+<h1>Planilla de Notas - {{ curso.nombre }} - {{ materia.nombre }}</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nombre Alumno</th>
+      <th>Proceso</th>
+      <th>Participación</th>
+      <th>TP Individual 1</th>
+      <!-- ... Resto de las columnas -->
+      <th>Conducta</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for alumno in alumnos %}
+      <tr>
+        <td>{{ alumno.nombre }} {{ alumno.apellido }}</td>
+        {% for nota in notas_primer_trimestre %}
+          {% if nota.id_notas.alumno == alumno %}
+            <td>{{ nota.PROCESO }}</td>
+            <td>{{ nota.PARTICIPACION_EN_CLASE }}</td>
+            <td>{{ nota.TP_INDIVIDUAL_1 }}</td>
+            <!-- ... Resto de las columnas -->
+            <td>{{ nota.CONDUCTA }}</td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

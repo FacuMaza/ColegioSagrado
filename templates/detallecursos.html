@@ -1,0 +1,14 @@
+{% load static %}
+{% block content %}
+<h1>{{ curso.descripcion }} ({{ curso.color }})</h1>
+<ul>
+    {% for materia in materias %}
+    <li>
+        <a href="{% url 'planilla_notas' curso_id materia.materia.id_materia %}"> 
+            <b>{{ materia.materia.descripcion }}</b> 
+        </a>
+        - {{ materia.docente.nombre }} ({{ materia.codigo }})
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

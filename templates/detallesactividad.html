@@ -1,0 +1,12 @@
+{% load static %}
+{% block content %}
+
+<h1>Lista de Actividades Calificadas</h1>
+<ul>
+    {% for actividad in actividades %}
+        <li>{{ actividad.descripcion }}</li>
+    {% endfor %}
+</ul>
+<a href= {% url 'agregar_actividad'%}>Regresar </a>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "baseconfiguracion.html" %}
+{% block content %}
+
+<h1>Datos del Alumno y Familia</h1>
+
+<h2>Datos del Alumno</h2>
+<ul>
+    <li><strong>ID:</strong> {{ alumno.id_alumno }}</li>
+    <li><strong>Nombre:</strong> {{ alumno.Nombre }}</li>
+    <li><strong>Apellido:</strong> {{ alumno.Apellido }}</li>
+    <li><strong>DNI:</strong> {{ alumno.DNI }}</li>
+    <li><strong>Correo Electrónico (Particular):</strong> {{ alumno.Correo_Electronico_Particular }}</li>
+    <li><strong>Correo Electrónico (Institucional):</strong> {{ alumno.Correo_Electronico_Institucional }}</li>
+    <li><strong>Dirección:</strong> {{ alumno.Direccion }}</li>
+    <li><strong>Localidad:</strong> {{ alumno.Localidad }}</li>
+    <li><strong>Nacionalidad:</strong> {{ alumno.Nacionalidad }}</li>
+    <li><strong>Colegio:</strong> {{ alumno.Colegio }}</li>
+    <li><strong>Sexo:</strong> {{ alumno.Sexo }}</li>
+    <li><strong>Fecha de Nacimiento:</strong> {{ alumno.Fecha_de_Nacimiento }}</li>
+    <li><strong>Lugar de Nacimiento:</strong> {{ alumno.Lugar_de_nacimiento }}</li>
+    <li><strong>Casa:</strong> {{ alumno.Casas }}</li>
+    <li><strong>Estado de Dispositivos:</strong> {{ alumno.estado_dispositivos }}</li>
+    <li><strong>Fecha de Creación:</strong> {{ alumno.fecha_creacion }}</li>
+    <li><strong>Fecha de Modificación:</strong> {{ alumno.fecha_modificacion }}</li>
+</ul>
+
+<h2>Datos de la Familia</h2>
+<ul>
+    <h3>Padre</h3>
+    <li><strong>Nombre:</strong> {{ familia.nombre_papa }}</li>
+    <li><strong>Apellido:</strong> {{ familia.apellido_papa }}</li>
+    <li><strong>DNI:</strong> {{ familia.dni_padre }}</li>
+    <li><strong>Domicilio:</strong> {{ familia.domicilio_papa }}</li>
+    <li><strong>Celular:</strong> {{ familia.celular_papa }}</li>
+    <li><strong>Teléfono:</strong> {{ familia.telefono_papa }}</li>
+    <li><strong>Ocupación:</strong> {{ familia.ocupacion_papa }}</li>
+    <li><strong>Email:</strong> {{ familia.email_papa }}</li>
+    
+    <h3>Madre</h3>
+    <li><strong>Nombre:</strong> {{ familia.nombre_mama }}</li>
+    <li><strong>Apellido:</strong> {{ familia.apellido_mama }}</li>
+    <li><strong>DNI:</strong> {{ familia.dni_mama }}</li>
+    <li><strong>Domicilio:</strong> {{ familia.domicilio_mama }}</li>
+    <li><strong>Celular:</strong> {{ familia.celular_mama }}</li>
+    <li><strong>Teléfono:</strong> {{ familia.telefono_mama }}</li>
+    <li><strong>Ocupación:</strong> {{ familia.ocupacion_mama }}</li>
+    <li><strong>Email:</strong> {{ familia.email_mama }}</li>
+</ul>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+{% endblock %}

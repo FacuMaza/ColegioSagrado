@@ -1,0 +1,35 @@
+<form action="{% url 'registro'%}" method="post">
+    {% csrf_token %} 
+    <h3 class="shake-letter text-success">Registro</h3>
+    <h5 class="shake-letter text-success">Ingrese sus datos</h5>
+    <div class="row mb-1">            
+        <div class="col-sm-12">
+            <label for="username" class="col-sm-3 col-form-label">Usuario</label>
+            <input type="text" placeholder="Usuario para el sistema" id="username" name="username" required>
+        </div>
+    </div>
+    <div class="row mb-1">
+        <div class="col-sm-12">
+            <label for="email" class="col-sm-3 col-form-label">Email</label>
+            <input type="email" placeholder="Ingrese su correo" id="email" name="email" required>
+        </div>
+    </div>
+    <div class="row mb-1">           
+        <div class="col-sm-12">
+            <label for="password" class="col-sm-3 col-form-label">Password</label>
+            <input type="password" placeholder="Ingrese su contraseña" id="password1" name="password1" required>
+        </div>
+    </div>
+
+    <div class="row mb-1">           
+        <div class="col-sm-12">
+            <label for="password" class="col-sm-3 col-form-label">Rol</label>
+            <input type="text" placeholder="Ingrese su contraseña" id="rol" name="rol" required>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-outline-success btn-neon">Registrar en el sistema</button>
+        </div>
+    </div>
+</form>
