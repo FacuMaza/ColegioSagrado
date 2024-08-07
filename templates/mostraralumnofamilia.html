@@ -27,6 +27,7 @@
 <h2>Datos de la Familia</h2>
 <ul>
     <h3>Padre</h3>
+    <li><strong>ID:</strong> {{ familia.id }}</li>
     <li><strong>Nombre:</strong> {{ familia.nombre_papa }}</li>
     <li><strong>Apellido:</strong> {{ familia.apellido_papa }}</li>
     <li><strong>DNI:</strong> {{ familia.dni_padre }}</li>
@@ -46,6 +47,6 @@
     <li><strong>Ocupación:</strong> {{ familia.ocupacion_mama }}</li>
     <li><strong>Email:</strong> {{ familia.email_mama }}</li>
 </ul>
-
+<a href="{% url 'crear_matricula' %}">Matricular Alumno</a>
 
 {% endblock %}

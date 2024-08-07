@@ -34,12 +34,12 @@
           </nav>
     </header>
     {% block content %}
-        <h1>Lista de Cursos</h1>
+        <h1>Lista de Cursos Existentes</h1>
     <ul>
         {% for curso in cursos %}
         <li>
             <a href="{% url 'detalle_curso' curso.id_curso %}">
-                {{ curso.descripcion }} ({{ curso.color }})
+                CODE {{curso.id_curso}}: {{ curso.descripcion }} ({{ curso.color }})
             </a>
         </li>
         {% endfor %}

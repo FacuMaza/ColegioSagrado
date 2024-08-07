@@ -41,9 +41,9 @@
                     <li class="nav-item">
                       <a class="nav-link" href='{% url 'configuracion'%}'>Configuracion</a>
                     </li>
-                  {% elif request.session.rol == 'profesor' %}
+                  {% elif request.session.rol == 'docente' %}
                     <li class="nav-item">
-                      <a class="nav-link" href='{% url 'configuracion'%}'>Cursos</a>
+                      <a class="nav-link" href='{% url 'cursos'%}'>Cursos</a>
                     </li>   
                   {% endif %}
                   <li class="nav-item">

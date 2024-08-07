@@ -171,9 +171,7 @@ class Docentes(models.Model):
         return f"{self.nombre} - {self.apellido}"
 
 
-
-
-# MODELO PARA RELACIONAR CURSO MATERIA
+# MODELO PARA RELACIONAR CURSO MATERIA 
 
 class CursoMateria(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE) 
@@ -185,19 +183,14 @@ class CursoMateria(models.Model):
         return f"{self.materia}"
     
 
-
-
 # MODELO PARA CARGAR MATRICULAS
 class Matriculas(models.Model):
-    id_alumno = models.ForeignKey(Alumnos, on_delete=models.CASCADE)
-    fecha_creacion = models.DateTimeField(default=timezone.now)
+    id_alumno_matricula = models.ForeignKey(Alumnos, on_delete=models.CASCADE)
+    curso_matricula = models.ForeignKey(Curso, on_delete=models.CASCADE, default=4)
+    fecha_creacion_matricula = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.id_alumno}"
-
-class MateriaAlumno(models.Model):
-    cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE)
-    matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)
+        return f"{self.id_alumno_matricula}"
 
 
 class Notas(models.Model):
@@ -229,3 +222,25 @@ class Notas(models.Model):
 
     def __str__(self):
         return f"Notas {self.get_trimestre_display()}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class MateriaAlumno(models.Model):
+    cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE)
+    matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)

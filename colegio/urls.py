@@ -12,7 +12,7 @@ urlpatterns = [
         
     path('alumnos/', views.alumnos, name= "alumnos"), #MOSTRARALUMNOS
     path('anadiralumno/', views.anadiralumno, name= "anadiralumno"), #ANADIRALUMNOS
-    path('detallealumno/<int:alumno_id>/', views.detallealumno, name='detallealumno'),
+    
 
 
 
@@ -59,13 +59,17 @@ urlpatterns = [
 
     path('anadirmatriculas/<int:alumno_id>/', views.anadirmatriculas, name='anadirmatriculas'),# generar matriculas
     path('ver_matriculas/<int:id_alumno>/', views.ver_matriculas, name='ver_matriculas'), # VER MATRICULAS
+    path('crear_matricula/', views.crear_matricula, name='crear_matricula'),
+    path('mostraralumnofamilia/<int:id_alumno>/', views.mostraralumnofamilia, name='mostraralumnofamilia'), # VER MATRICULAS
 
 
     path('cursomateria/', views.anadircursomateriasdocente, name= "cursomateria"),# ANADIR CURSO MATERIAS DOCENTES
 
 
 
-     path('notas/gestionar/<int:curso_materia_id>/<int:matricula_id>/', views.gestionar_notas, name='gestionar_notas'),
+    #path('notas/gestionar/<int:curso_materia_id>/<int:matricula_id>/', views.gestionar_notas, name='gestionar_notas'),
+    path('notas/gestionar/<int:curso_materia_id>/', views.gestionar_notas, name='gestionar_notas'),
+    path('notas/gestionar/<int:curso_materia_id>/<int:matricula_id>/<int:trimestre>/', views.gestionar_nota, name='gestionar_nota'),
 
     path('materiasalumnos/', views.materia_alumno_create, name='materiasalumnos'),# MATERIAS ALUMNOS     
 ]

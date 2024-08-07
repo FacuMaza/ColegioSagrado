@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic.edit import CreateView
 from .models import *
 from django.contrib.auth.models import User
-from .forms import AlumnosForm, CasasForm, CategoriasProfesoresForm, ColegioForm, CursoForm, CursoMateriaForm, DocentesForm, FamiliasForm, LocalidadForm, MateriaAlumnoForm,MateriaForm, NacionalidadForm, NivelProfesoresForm, NotasForm, SexoForm
+from .forms import AlumnosForm, CasasForm, CategoriasProfesoresForm, ColegioForm, CursoForm, CursoMateriaForm, DocentesForm, FamiliasForm, LocalidadForm, MateriaAlumnoForm,MateriaForm, MatriculaForm, NacionalidadForm, NivelProfesoresForm, NotasForm, SexoForm
 
 
 def index(request):
@@ -186,25 +186,22 @@ def anadiralumno(request):
     if request.method == 'POST':
         form = AlumnosForm(request.POST)
         if form.is_valid():
-            nuevo_alumno = form.save()
-            Matriculas.objects.create(
-                id_alumno=nuevo_alumno,
-                fecha_creacion=timezone.now()
-            )
-            return HttpResponseRedirect(reverse('anadirmatriculas', kwargs={'alumno_id': nuevo_alumno.pk}))
+            alumno_nuevo = form.save()
+            
+            return redirect('mostraralumnofamilia', id_alumno=alumno_nuevo.id_alumno)
     else:
         form = AlumnosForm()
     return render(request, 'anadiralumno.html', {'form': form})
 # VIWS PARA LA MUESTRA DE ALUMNOS
-def detallealumno(request,alumno_id):
-    alumno = get_object_or_404(Alumnos, pk=alumno_id)
-    familia_id = alumno.id_familia.id 
+def mostraralumnofamilia(request, id_alumno):
+    alumno = get_object_or_404(Alumnos, pk=id_alumno)
+    familia = alumno.id_familia
 
     context = {
-        'alumno': alumno, 
-        'familia_id': familia_id
-    } 
-    return render(request, 'detallealumnos.html', context)
+        'alumno': alumno,
+        'familia': familia
+    }
+    return render(request, 'mostraralumnofamilia.html', context)
 
 
 
@@ -227,6 +224,17 @@ def ver_matriculas(request, id_alumno):
         'matriculas': matriculas,
     }
     return render(request, 'matriculas.html', context)
+
+# VIWS cargar MATRICULAS
+def crear_matricula(request):
+    if request.method == 'POST':
+        form = MatriculaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redireccionar a una página de éxito
+    else:
+        form = MatriculaForm()
+    return render(request, 'crear_matricula.html', {'form': form})
 
 
 # VIWS PARA CARGAR FAMILIAS
@@ -320,23 +328,81 @@ def anadircursomateriasdocente(request):
 
 # VIWS PARA CARGAR NOTAS
 
-def gestionar_notas(request, curso_materia_id, matricula_id):
+   
+def gestionar_notas(request, curso_materia_id):
+    # Obtener la materia del curso según el ID proporcionado
     cursomateria = get_object_or_404(CursoMateria, id=curso_materia_id)
-    matricula = get_object_or_404(MateriaAlumno, cursomateria=cursomateria, matricula__id_alumno__id=matricula_id)
-    matricula = matricula.matricula 
+
+    # Obtener los estudiantes matriculados en el curso asociado a la materia
+    estudiantes_en_materia = Matriculas.objects.filter(
+        curso_matricula=cursomateria.curso
+    ).distinct()
+
+    # Obtener las notas ya existentes para los estudiantes en la materia
+    notas_existentes = Notas.objects.filter(
+        id_cursomateria=cursomateria,
+        id_matricula__in=estudiantes_en_materia
+    ).values('id_matricula', 'trimestre')  
+
+    # Crear un diccionario para almacenar las notas (para la vista)
+    notas_por_estudiante = {}
+    for nota in notas_existentes:
+        matricula_id = nota['id_matricula']
+        trimestre = nota['trimestre']
+        if matricula_id not in notas_por_estudiante:
+            notas_por_estudiante[matricula_id] = {}
+        notas_por_estudiante[matricula_id][trimestre] = True  
+
+    # Renderizar la plantilla con los datos
+    return render(request, 'gestionar_notas.html', {
+        'cursomateria': cursomateria,
+        'estudiantes_en_materia': estudiantes_en_materia,
+        'notas_por_estudiante': notas_por_estudiante,
+        'curso_materia_id' : cursomateria.materia,
+        'curso': cursomateria.curso,
+        'docente': cursomateria.docente,
+        
+    })
+
+
+def gestionar_nota(request, curso_materia_id, matricula_id, trimestre):
+    cursomateria = get_object_or_404(CursoMateria, id=curso_materia_id)
+    matricula = get_object_or_404(Matriculas, id=matricula_id)
+
+    # Busca la Nota si ya existe (para edición)
+    try:
+        nota = Notas.objects.get(id_cursomateria=cursomateria, id_matricula=matricula, trimestre=trimestre)
+    except Notas.DoesNotExist:
+        nota = None
 
     if request.method == 'POST':
-        form = NotasForm(request.POST)
+        form = NotasForm(request.POST, instance=nota) 
         if form.is_valid():
-            notas = form.save(commit=False)
-            notas.id_cursomateria = cursomateria
-            notas.id_matricula = matricula
-            notas.save()
-            return HttpResponseRedirect(reverse('notas_detalle', args=[notas.id]))
+            nota = form.save()
+            return redirect('gestionar_notas', curso_materia_id=cursomateria.id) 
     else:
-        form = NotasForm()
+        form = NotasForm(instance=nota)
 
-    return render(request, 'gestionar_notas.html', {'form': form, 'cursomateria': cursomateria, 'matricula': matricula})
+    return render(request, 'gestionar_nota.html', {
+        'form': form,
+        'cursomateria': cursomateria,
+        'matricula': matricula,
+        'trimestre': trimestre
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

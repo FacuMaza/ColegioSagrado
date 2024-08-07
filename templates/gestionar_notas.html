@@ -1,12 +1,73 @@
-{% extends "base.html" %}
-
+{% extends "baseconfiguracion.html" %}
 {% block content %}
-  <h2>Gestionar Notas de {{ cursomateria.materia }}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="matricula_id" value="{{ matricula.id_alumno.id }}">
-    <button type="submit">Guardar Notas</button>
-  </form>
-  <a href="{% url 'cursos' cursomateria.curso.id %}">Volver al Curso</a>
+<div class="container text-center">
+
+  <h3>Gestión de Notas</h3>
+    <div class="hstack gap-3">
+      <div class="p-2">Estudiantes del {{curso}}</div>
+      <div class="vr"></div>
+      <div class="p-2">Materia de {{curso_materia_id}}</div>
+      <div class="vr"></div>
+      <div class="p-2">Docente: {{docente}}</div>
+    </div>
+
+  <div class="table-responsive">
+
+    <table class="table align-middle table-sm table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>Estudiante</th>
+            <th>Trimestre</th>
+            <th>Proceso</th>
+            <th>Participación en Clase</th>
+            <th>TP Individual 1</th>
+            <th>TP Individual 2</th>
+            <th>Lección Oral Individual</th>
+            <th>Exposición Oral Individual</th>
+            <th>Evaluación Escrita</th>
+            <th>Exposición 1 Grupal - Nota Grupal</th>
+            <th>Exposición 1 Grupal - Nota Individual</th>
+            <th>Exposición 1 Grupal - Soporte Presentación</th>
+            <th>Exposición 2 Grupal - Nota Grupal</th>
+            <th>Exposición 2 Grupal - Nota Individual</th>
+            <th>Exposición 2 Grupal - Soporte Presentación</th>
+            <th>Laboratorio y Taller</th>
+            <th>Carpeta</th>
+            <th>Material</th>
+            <th>Conducta</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for estudiante in estudiantes_en_materia %}
+            <tr>
+              <td>{{ estudiante.id_alumno_matricula }} </td>
+              <td>{{ notas.trimestre }} 0</td>
+              <td>{{ notas.PROCESO }} 0</td>
+              <td>{{ notas.PARTICIPACION_EN_CLASE }}</td>
+              <td>{{ notas.TP_INDIVIDUAL_1 }}0</td>
+              <td>{{ notas.TP_INDIVIDUAL_2 }}0</td>
+              <td>{{ notas.LECCION_ORAL_INDIVIDUAL }}0</td>
+              <td>{{ notas.EXPOSICION_ORAL_INDIVIDUAL }}0</td>
+              <td>{{ notas.EVALUACION_ESCRITA }}0</td>
+              <td>{{ notas.EXPOSICION1_GRUPAL_NOTA_GRUPAL }}0</td>
+              <td>{{ notas.EXPOSICION1_GRUPAL_NOTA_INDIVIDUAL }}0</td>
+              <td>{{ notas.EXPOSICION1_GRUPAL_SOPORTE_PRESENTACION }}0</td>
+              <td>{{ notas.EXPOSICION2_GRUPAL_NOTA_GRUPAL }}0</td>
+              <td>{{ notas.EXPOSICION2_GRUPAL_NOTA_INDIVIDUAL }}0</td>
+              <td>{{ notas.EXPOSICION2_GRUPAL_SOPORTE_PRESENTACION }}0</td>
+              <td>{{ notas.LABORATORIO_Y_TALLER }}0</td>
+              <td>{{ notas.CARPETA }}0</td>
+              <td>{{ notas.MATERIAL }}0</td>
+              <td>{{ notas.CONDUCTA }}0</td>
+          </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">No hay estudiantes matriculados en esta materia.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+  </div>  
+</div>
 {% endblock %}

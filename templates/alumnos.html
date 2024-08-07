@@ -40,7 +40,7 @@
     {% for alumno in alumnos %}
         <li>
           
-          <a href="{% url 'detallealumno' alumno.id_alumno %}">{{ alumno.Nombre }} {{ alumno.Apellido }} </a>
+          <a href="{% url 'mostraralumnofamilia' alumno.id_alumno %}">{{ alumno.Nombre }} {{ alumno.Apellido }} </a>
             
             (Familia: {{ alumno.id_familia }})
 

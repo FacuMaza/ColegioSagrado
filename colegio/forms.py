@@ -158,3 +158,9 @@ class MateriaAlumnoForm(forms.ModelForm):
         # Define querysets para los campos ForeignKey
         self.fields['cursomateria'] = forms.ModelChoiceField(queryset=CursoMateria.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
         self.fields['matricula'] = forms.ModelChoiceField(queryset=Matriculas.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+
+
+class MatriculaForm(forms.ModelForm):
+    class Meta:
+        model = Matriculas
+        fields = ['id_alumno_matricula', 'curso_matricula']
