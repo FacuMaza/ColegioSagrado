@@ -2,10 +2,80 @@
 {% block content %}
 
 <h1>Añadir Docentes</h1>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    
+    <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        {{ form.nombre }}
+    </div>
+
+    <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        {{ form.apellido }}
+    </div>
+
+    <div class="form-group">
+        <label for="cuil">CUIL:</label>
+        {{ form.cuil }}
+    </div>
+
+    <div class="form-group">
+        <label for="legajo_administrativo">Legajo Administrativo:</label>
+        {{ form.legajo_administrativo }}
+    </div>
+
+    <div class="form-group">
+        <label for="legajo_reloj">Legajo Reloj:</label>
+        {{ form.legajo_reloj }}
+    </div>
+
+    <div class="form-group">
+        <label for="numero_legajo_sueldo">Número Legajo Sueldo:</label>
+        {{ form.numero_legajo_sueldo }}
+    </div>
+
+    <div class="form-group">
+        <label for="horario">Horario:</label>
+        {{ form.horario }}
+    </div>
+
+    <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        {{ form.categoria }}
+    </div>
+
+    <div class="form-group">
+        <label for="nivel">Nivel:</label>
+        {{ form.nivel }}
+    </div>
+
+    <div class="form-group">
+        <label for="titulo_base">Título Base:</label>
+        {{ form.titulo_base }}
+    </div>
+
+    <div class="form-group">
+        <label for="fomacion_academica">Formación Académica:</label>
+        {{ form.fomacion_academica }}
+    </div>
+
+    <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        {{ form.telefono }}
+    </div>
+
+    <div class="form-group">
+        <label for="correo_electronico_personal">Correo Electrónico Personal:</label>
+        {{ form.correo_electronico_personal }}
+    </div>
+
+    <div class="form-group">
+        <label for="correo_electronico_institucional">Correo Electrónico Institucional:</label>
+        {{ form.correo_electronico_institucional }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 
 {% endblock %}

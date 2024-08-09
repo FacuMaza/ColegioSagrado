@@ -1,11 +1,31 @@
 {% extends "baseconfiguracion.html" %}
 {% block content %}
 
-<h1>Crear un nuevo curso</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+<div class="container mt-5">
+    <div class="title-block"> 
+        <h1 class="text-center" style="font-style: italic;">
+            Crear un nuevo curso
+       </h1> 
+    </div> 
+    <div class="table-container">
+        <form method="POST">
+            {% csrf_token %}
+            <table class="table table-striped table-bordered text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ form.as_table }}
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

@@ -90,24 +90,85 @@ class NivelProfesoresForm(forms.ModelForm):
 # FORMS DEL MODEL FAMILIAS
 class FamiliasForm(forms.ModelForm):
     class Meta:
-        model = Familias
+        model = Familias  # Ahora el modelo es Familias
         fields = '__all__'
+        exclude = ['fecha_creacion', 'fecha_modificacion']
+
+        widgets = {
+            'nombre_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'apellido_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'dni_padre': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'domicilio_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'domicilio_laboral_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'telofono_fijo': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'celular_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'ocupacion_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'email_papa': forms.EmailInput(attrs={'class': 'form-control col-md-4'}),
+            'nombre_mama': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'apellido_mama': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'dni_mama': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'domicilio_mama': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'domicilio_laboral_papa': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'celular_mama': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'telofono_fijo': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'ocupacion_mama': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'email_mama': forms.EmailInput(attrs={'class': 'form-control col-md-4'}),
+        }
+
+        labels = {
+            'nombre_papa': 'Nombre del Padre',
+            'apellido_papa': 'Apellido del Padre',
+            'dni_padre': 'DNI del Padre',
+            'domicilio_papa': 'Domicilio del Padre',
+            'domicilio_laboral_papa': 'Domicilio Laboral del Padre',
+            'telofono_fijo': 'Teléfono Fijo',
+            'celular_papa': 'Celular del Padre',
+            'ocupacion_papa': 'Ocupación del Padre',
+            'email_papa': 'Correo Electrónico del Padre',
+            'nombre_mama': 'Nombre de la Madre',
+            'apellido_mama': 'Apellido de la Madre',
+            'dni_mama': 'DNI de la Madre',
+            'domicilio_mama': 'Domicilio de la Madre',
+            'domicilio_laboral_papa': 'Domicilio Laboral de la Madre',
+            'celular_mama': 'Celular de la Madre',
+            'telofono_fijo': 'Teléfono Fijo',
+            'ocupacion_mama': 'Ocupación de la Madre',
+            'email_mama': 'Correo Electrónico de la Madre',
+        }
+        
 
 class AlumnosForm(forms.ModelForm):
     class Meta:
         model = Alumnos
-        fields = '__all__'  # Incluye todos los campos del modelo
+        fields = '__all__'  # Incluye todos los campos
+        exclude = ['fecha_creacion', 'fecha_modificacion']
+       
 
         widgets = {
-            'id_familia': forms.Select(attrs={'class': 'form-control'}),
-            'Fecha_de_Nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'id_familia': forms.Select(attrs={'class': 'form-select col-md-4'}),
+            'Nombre': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'Apellido': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'DNI': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'Correo_Electronico_Particular': forms.EmailInput(attrs={'class': 'form-control col-md-4'}),
+            'Correo_Electronico_Institucional': forms.EmailInput(attrs={'class': 'form-control col-md-4'}),
+            'Direccion': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'Localidad': forms.Select(attrs={'class': 'form-select col-md-4'}),
+            'Nacionalidad': forms.Select(attrs={'class': 'form-select col-md-4'}),
+            'Colegio': forms.Select(attrs={'class': 'form-select col-md-4'}),
+            'Sexo': forms.Select(attrs={'class': 'form-select col-md-4'}),
+            'Fecha_de_Nacimiento': forms.DateInput(attrs={'class': 'form-control col-md-4', 'type': 'date'}),
+            'Lugar_de_nacimiento': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
+            'Casas': forms.Select(attrs={'class': 'form-select col-md-4'}),
+            'estado_dispositivos': forms.TextInput(attrs={'class': 'form-control col-md-4'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['id_familia'].queryset = Familias.objects.all()
-
-
+        labels = {
+            'id_familia': 'Apellido de la Familia',
+            'Correo_Electronico_Particular': 'Correo Electrónico Particular',
+            'Correo_Electronico_Institucional': 'Correo Electrónico Institucional',
+            'Fecha_de_Nacimiento': 'Fecha de Nacimiento',
+            'Lugar_de_nacimiento': 'Lugar de Nacimiento',
+        }
 
 class CursoMateriaForm(forms.ModelForm):
     class Meta:

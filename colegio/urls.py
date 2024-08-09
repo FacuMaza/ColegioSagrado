@@ -17,7 +17,7 @@ urlpatterns = [
 
 
 
-    path('profesores/', views.profesores, name= "docentes"), #DOCENTES
+    path('docentes/', views.docentes, name= "docentes"), #DOCENTES
     path('anadirdocentes/', views.anadirdocentes, name= "anadirdocentes"), #ANADIR DOCENTES
     path('catogirasdocentes/', views.anadircategoriasdocente, name= "categoriasdocentes"), #CATEGORIAS DOCENTES
     path('niveldocentes/', views.anadirniveldocente, name= "niveldocentes"), #NIVEL DOCENTES

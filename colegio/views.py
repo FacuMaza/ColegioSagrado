@@ -17,8 +17,12 @@ def alumnos(request):
     alumnos = Alumnos.objects.all()
     return render(request, 'alumnos.html', {'alumnos': alumnos})
 
-def profesores(request):
-    return render(request, "docentes.html")
+def docentes(request):
+    docentes = Docentes.objects.all()
+    context = {
+        'docentes': docentes,
+    }
+    return render(request, "docentes.html",context)
 
 def familias(request):
     familia = Familias.objects.all()

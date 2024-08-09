@@ -1,78 +1,165 @@
-<table border="1">
-    <tr>
-        <th>Campo</th>
-        <th>Valor</th>
-    </tr>
-    <tr>
-        <td>Nombre del Padre</td>
-        <td>{{ familias.nombre_papa }}</td>
-    </tr>
-    <tr>
-        <td>Apellido del Padre</td>
-        <td>{{ familias.apellido_papa }}</td>
-    </tr>
-    <tr>
-        <td>DNI del Padre</td>
-        <td>{{ familias.dni_padre }}</td>
-    </tr>
-    <tr>
-        <td>Domicilio del Padre</td>
-        <td>{{ familias.domicilio_papa }}</td>
-    </tr>
-    <tr>
-        <td>Celular del Padre</td>
-        <td>{{ familias.celular_papa }}</td>
-    </tr>
-    <tr>
-        <td>Teléfono del Padre</td>
-        <td>{{ familias.telefono_papa }}</td>
-    </tr>
-    <tr>
-        <td>Ocupación del Padre</td>
-        <td>{{ familias.ocupacion_papa }}</td>
-    </tr>
-    <tr>
-        <td>Email del Padre</td>
-        <td>{{ familias.email_papa }}</td>
-    </tr>
-    <tr>
-        <td>Nombre de la Madre</td>
-        <td>{{ familias.nombre_mama }}</td>
-    </tr>
-    <tr>
-        <td>Apellido de la Madre</td>
-        <td>{{ familias.apellido_mama }}</td>
-    </tr>
-    <tr>
-        <td>DNI de la Madre</td>
-        <td>{{ familias.dni_mama }}</td>
-    </tr>
-    <tr>
-        <td>Domicilio de la Madre</td>
-        <td>{{ familias.domicilio_mama }}</td>
-    </tr>
-    <tr>
-        <td>Celular de la Madre</td>
-        <td>{{ familias.celular_mama }}</td>
-    </tr>
-    <tr>
-        <td>Teléfono de la Madre</td>
-        <td>{{ familias.telefono_mama }}</td>
-    </tr>
-    <tr>
-        <td>Ocupación de la Madre</td>
-        <td>{{ familias.ocupacion_mama }}</td>
-    </tr>
-    <tr>
-        <td>Email de la Madre</td>
-        <td>{{ familias.email_mama }}</td>
-    </tr>
-    <tr>
-        <td>Fecha de Creación</td>
-        <td>{{ familias.fecha_creacion }}</td>
-    </tr>
-    <tr>
-        <td>Fecha de Modificación</td>
-        <td>{{ familias.fecha_modificacion }}</td>
-    </tr>
-</table>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Detalle de Familia</title>
+    <style>
+        body {
+            margin: 0; /* Remove default body margins */
+            display: flex; /* Enable flexbox for body */
+            flex-direction: column; /* Align items vertically */
+            height: 100vh; /* Occupy full viewport height */
+        }
+
+        header {
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+
+        .container {
+            flex: 1; /* Allow the container to fill remaining space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title-block {
+            background-color: #f0f0f0; /* Light gray background */
+            padding: 15px;
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+            width: 100%; /* Occupy full width */
+            margin-bottom: 20px; /* Space between title and table */
+        }
+
+        .title-block h1 {
+            font-style: italic; /* Italic title text */
+            text-align: center; /* Center the title */
+        }
+
+        .table-container {
+            width: 100%; /* Occupy full width */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <img src="{% static 'img/escudo.png' %}" width="5%" alt="Logo">
+              
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href='{% url 'familias'%}'>Lista de Familias</a>
+                  </li>
+                  
+                </ul>
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+    <div class="container mt-5">
+        <div class="title-block"> 
+            <h1 class="text-center">Detalle de Familia</h1> 
+        </div> 
+        <div class="table-container">
+            <table class="table table-striped table-bordered text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="col">Datos del Padre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>{{ familias.nombre_papa }}</td>
+                    </tr>
+                    <tr>
+                        <td>Apellido</td>
+                        <td>{{ familias.apellido_papa }}</td>
+                    </tr>
+                    <tr>
+                        <td>DNI</td>
+                        <td>{{ familias.dni_padre }}</td>
+                    </tr>
+                    <tr>
+                        <td>Domicilio</td>
+                        <td>{{ familias.domicilio_papa }}</td>
+                    </tr>
+                    <tr>
+                        <td>Celular</td>
+                        <td>{{ familias.celular_papa }}</td>
+                    </tr>
+                    <tr>
+                        <td>Teléfono</td>
+                        <td>{{ familias.telefono_papa }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ocupación</td>
+                        <td>{{ familias.ocupacion_papa }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ familias.email_papa }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped table-bordered text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="col">Datos de la Madre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>{{ familias.nombre_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Apellido</td>
+                        <td>{{ familias.apellido_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>DNI</td>
+                        <td>{{ familias.dni_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Domicilio</td>
+                        <td>{{ familias.domicilio_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Celular</td>
+                        <td>{{ familias.celular_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Teléfono</td>
+                        <td>{{ familias.telefono_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ocupación</td>
+                        <td>{{ familias.ocupacion_mama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ familias.email_mama }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

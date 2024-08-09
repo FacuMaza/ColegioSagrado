@@ -1,43 +1,47 @@
+{% extends "baseconfiguracion.html" %}
+{% block content %}
 <form action="{% url 'registro'%}" method="post">
     {% csrf_token %} 
-    <h3 class="shake-letter text-success">Registro</h3>
-    <h5 class="shake-letter text-success">Ingrese sus datos</h5>
-    <div class="row mb-1">            
-        <div class="col-sm-12">
-            <label for="username" class="col-sm-3 col-form-label">Usuario</label>
-            <input type="text" placeholder="Usuario para el sistema" id="username" name="username" required>
-        </div>
-    </div>
-    <div class="row mb-1">
-        <div class="col-sm-12">
-            <label for="email" class="col-sm-3 col-form-label">Email</label>
-            <input type="email" placeholder="Ingrese su correo" id="email" name="email" required>
-        </div>
-    </div>
-    <div class="row mb-1">           
-        <div class="col-sm-12">
-            <label for="password" class="col-sm-3 col-form-label">Password</label>
-            <input type="password" placeholder="Ingrese su contraseña" id="password1" name="password1" required>
-        </div>
-    </div>
-
-    <div class="row mb-1">           
-        <div class="col-sm-12">
-            <label for="password" class="col-sm-3 col-form-label">Rol</label>
-            <select id="rol" name="rol" required>
-                <option value="">Seleccionar un Rol</option>
-                <option value="administrador">Administrador</option>
-                <option value="colaborador">Colaborador</option>
-                <option value="director">Director</option>
-                <option value="contador">Contador</option>
-                <option value="secretaria">Secretaria</option>
-                <option value="docente">Docentes</option>
-              </select>
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-sm-12">
-            <button type="submit" class="btn btn-outline-success btn-neon">Registrar en el sistema</button>
+    <div class="container mt-5">
+        <div class="container" style="background-color: #f8f8f8; padding: 10px; border-radius: 10px; margin-top: 20px;"> 
+            <h1 class="text-center" style="font-style: italic;">Registro</h1> 
+        </div> 
+        <div class="table-container">
+            <table class="table table-striped table-bordered text-center" style="width: 100%;">
+ 
+                <tbody>
+                    <tr>
+                        <td><label for="username" class="col-sm-3 col-form-label">Usuario</label></td>
+                        <td><input type="text" placeholder="Usuario para el sistema" id="username" name="username" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email" class="col-sm-3 col-form-label">Email</label></td>
+                        <td><input type="email" placeholder="Ingrese su correo" id="email" name="email" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password" class="col-sm-3 col-form-label">Password</label></td>
+                        <td><input type="password" placeholder="Ingrese su contraseña" id="password1" name="password1" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password" class="col-sm-3 col-form-label">Rol</label></td>
+                        <td>
+                            <select id="rol" name="rol" required>
+                                <option value="">Seleccionar un Rol</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="colaborador">Colaborador</option>
+                                <option value="director">Director</option>
+                                <option value="contador">Contador</option>
+                                <option value="secretaria">Secretaria</option>
+                                <option value="docente">Docentes</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-success btn-neon">Registrar en el sistema</button>
+            </div>
         </div>
     </div>
 </form>
+{% endblock %}

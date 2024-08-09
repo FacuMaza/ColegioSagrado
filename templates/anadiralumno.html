@@ -1,11 +1,85 @@
 {% extends "baseconfiguracion.html" %}
 {% block content %}
 
-<h1>Crear un Alumno</h1>
-<form method="POST">
+<div class="container" style="background-color: #f8f8f8; padding: 20px; border-radius: 10px; margin-top: 20px;"> 
+    <h1 class="text-center" style="font-style: italic;">Crear un Alumno</h1> 
+</div> 
+
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
+
+    <div class="row g-2 justify-content-center">
+        <div class="col-md-8"> 
+            <h2>Datos Personales</h2>
+            <table class="table table-striped table-bordered" id="datos-personales">
+                <tbody>
+                    <tr>
+                        <th class="text-left"> {{ form.id_familia.label }} </th>
+                        <td class="text-left"> {{ form.id_familia }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Nombre.label }} </th>
+                        <td class="text-left"> {{ form.Nombre }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Apellido.label }} </th>
+                        <td class="text-left"> {{ form.Apellido }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.DNI.label }} </th>
+                        <td class="text-left"> {{ form.DNI }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Correo_Electronico_Particular.label }} </th>
+                        <td class="text-left"> {{ form.Correo_Electronico_Particular }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Correo_Electronico_Institucional.label }} </th>
+                        <td class="text-left"> {{ form.Correo_Electronico_Institucional }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Direccion.label }} </th>
+                        <td class="text-left"> {{ form.Direccion }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Localidad.label }} </th>
+                        <td class="text-left"> {{ form.Localidad }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Nacionalidad.label }} </th>
+                        <td class="text-left"> {{ form.Nacionalidad }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Colegio.label }} </th>
+                        <td class="text-left"> {{ form.Colegio }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Sexo.label }} </th>
+                        <td class="text-left"> {{ form.Sexo }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Fecha_de_Nacimiento.label }} </th>
+                        <td class="text-left"> {{ form.Fecha_de_Nacimiento }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Lugar_de_nacimiento.label }} </th>
+                        <td class="text-left"> {{ form.Lugar_de_nacimiento }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.Casas.label }} </th>
+                        <td class="text-left"> {{ form.Casas }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-left"> {{ form.estado_dispositivos.label }} </th>
+                        <td class="text-left"> {{ form.estado_dispositivos }} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
 </form>
 
 {% endblock %}
