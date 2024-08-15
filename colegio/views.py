@@ -13,27 +13,61 @@ from .forms import AlumnosForm, CasasForm, CategoriasProfesoresForm, ColegioForm
 def index(request):
     return render(request, "index.html")
 
+from django.shortcuts import render
+from .models import Alumnos
+from django.db.models import Q
+
 def alumnos(request):
-    alumnos = Alumnos.objects.all()
+    # Obtener el término de búsqueda desde la query string
+    query = request.GET.get('query')
+
+    # Si hay un término de búsqueda, realizar la búsqueda
+    if query:
+        # Buscar por apellido o DNI
+        alumnos = Alumnos.objects.filter(
+            Q(Apellido__icontains=query) | 
+            Q(DNI__icontains=query)
+        )
+    else:
+        # Mostrar todos los alumnos si no hay búsqueda
+        alumnos = Alumnos.objects.all()
+
     return render(request, 'alumnos.html', {'alumnos': alumnos})
 
+@login_required
 def docentes(request):
     docentes = Docentes.objects.all()
     context = {
         'docentes': docentes,
     }
-    return render(request, "docentes.html",context)
+    return render(request, 'docentes.html', context)
 
 def familias(request):
     familia = Familias.objects.all()
     return render(request, "familias.html", {'familia': familia})
 
 def cursos(request):
-    cursos = Curso.objects.all()
-    context = {
-        'cursos': cursos,
-    }
-    return render(request, 'cursos.html', context)
+    if request.session.get('rol') == 'docente':
+        # Obtén el usuario docente actual
+        docente_actual = request.session.get('id_docente')  # Asegúrate que 'id_docente' esté en la sesión
+        
+        # Obtén los cursos y materias asignados al docente actual
+        cursos_docente = CursoMateria.objects.filter(docentes__id_docentes=docente_actual) \
+                                             .select_related('curso', 'materia') \
+                                             .distinct()
+        context = {
+            'cursos': cursos_docente,
+        }
+        return render(request, 'cursos.html', context)
+    elif request.session.get('rol') == 'administrador':
+        cursos = Curso.objects.all()
+        context = {
+            'cursos': cursos,
+        }
+        return render(request, 'cursos.html', context)
+    else:
+        # Maneja el caso de que el usuario no tenga un rol válido
+        return redirect('login')  # Redirige al login
 
 # DETALLES CURSOS
 def detalle_curso(request, curso_id):
@@ -81,7 +115,14 @@ def LoginPage(request):
             request.session['rol'] = rol
             request.session['username'] = username # Asegúrate de que el nombre de usuario esté disponible en la sesión
 
-            return redirect('home')
+            # Redirige a la vista de inicio de sesión según el rol
+            if rol == 'docente':
+                return redirect('home')
+            elif rol == 'administrador':
+                return redirect('home')
+            else:
+                return render(request, 'error_rol.html')  # Redirige a una vista de error
+
         else:
             return HttpResponse ("Usuario y Contraseña incorrectos!!!")
     return render (request,'login.html')
@@ -203,7 +244,7 @@ def mostraralumnofamilia(request, id_alumno):
 
     context = {
         'alumno': alumno,
-        'familia': familia
+        
     }
     return render(request, 'mostraralumnofamilia.html', context)
 
@@ -222,7 +263,7 @@ def anadirmatriculas(request, alumno_id):
 # VIWS PARA VER MATRICULAS
 def ver_matriculas(request, id_alumno):
     alumno = get_object_or_404(Alumnos, pk=id_alumno)
-    matriculas = Matriculas.objects.filter(id_alumno=alumno) # Utiliza la relación ForeignKey 
+    matriculas = Matriculas.objects.filter(id_alumno_matricula=alumno) 
     context = {
         'alumno': alumno,
         'matriculas': matriculas,
@@ -236,9 +277,14 @@ def crear_matricula(request):
         if form.is_valid():
             form.save()
             # Redireccionar a una página de éxito
+            return redirect('alumnos')  # Redirecciona a la lista de alumnos
     else:
         form = MatriculaForm()
-    return render(request, 'crear_matricula.html', {'form': form})
+    context = {
+        'form': form,
+        'es_creacion': True  # Indica que se está creando una matricula
+    }
+    return render(request, 'crear_matricula.html', context)
 
 
 # VIWS PARA CARGAR FAMILIAS
@@ -254,8 +300,8 @@ def anadirfamilias(request):
 
 
 # VIWS PARA VER DATOS DE FAMILIAS
-def detallefamilias(request,familia_id):
-    familias = Familias.objects.get(pk=familia_id) 
+def detallefamilias(request, familia_id):
+    familias = get_object_or_404(Familias, pk=familia_id) 
     return render(request, 'detallefamilias.html', {'familias': familias})
 
 
@@ -289,6 +335,7 @@ def SignupPage(request):
         email = request.POST.get('email')
         pass1 = request.POST.get('password1')
         rol = request.POST.get('rol')
+        docente_id = request.POST.get('docente_id')  # Captura el ID del docente si se seleccionó
 
         # Validación de entrada (opcional pero recomendada)
         if not uname or not email or not pass1 or not rol:
@@ -305,8 +352,16 @@ def SignupPage(request):
             my_user.save()
         
             # Crea el UserProfile para el nuevo usuario
-            nuevo_usuario_rol = UsuarioRol(usuario=my_user, rol=rol)  # Usa my_user aquí
+            nuevo_usuario_rol = UsuarioRol(usuario=my_user, rol=rol) 
             nuevo_usuario_rol.save()
+
+            # Si el rol es "Docente", crea la relación con el docente
+            if rol == 'docente':
+                if docente_id:
+                    docente = Docentes.objects.get(pk=docente_id)
+                    nuevo_usuario_rol.docente = docente
+                    nuevo_usuario_rol.save()
+
             return redirect('login')  # Redirecciona a la vista de inicio de sesión
 
         except Exception as e:
@@ -315,7 +370,8 @@ def SignupPage(request):
 
     else:
         # Mostrar el formulario de registro
-        return render(request, 'registrarusuario.html')
+        docentes = Docentes.objects.all()
+        return render(request, 'registrarusuario.html', {'docentes': docentes})
 
 
 # VIWS PARA CARGAR CURSOS-MATERIAS-DOCENTES

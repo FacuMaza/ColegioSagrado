@@ -38,6 +38,14 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="form-group">  
+                <label for="docente_id">Docente:</label>  
+                <select class="form-control" id="docente_id" name="docente_id" required>  
+                    {% for docente in docentes %}  
+                        <option value="{{ docente.id_docentes }}">{{ docente.nombre }} {{ docente.apellido }}</option>  
+                    {% endfor %}  
+                </select>  
+            </div> 
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-outline-success btn-neon">Registrar en el sistema</button>
             </div>

@@ -1,0 +1,19 @@
+{% extends "baseconfiguracion.html" %}
+{% block content %}
+<h1>Agregar un Curso y materia</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }} 
+
+    <div class="form-group">  
+        <label for="docente_id">Docente:</label>  
+        <select class="form-control" id="docente_id" name="docente_id" required>  
+            {% for docente in docentes %}  
+                <option value="{{ docente.id_docentes }}">{{ docente.nombre }} {{ docente.apellido }}</option>  
+            {% endfor %}  
+        </select>  
+    </div>  
+
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

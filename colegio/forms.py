@@ -174,13 +174,15 @@ class CursoMateriaForm(forms.ModelForm):
     class Meta:
         model = CursoMateria
         fields = '__all__'
-
         widgets = {
-            'curso': forms.Select(attrs={'class': 'form-control'}),
-            'materia': forms.Select(attrs={'class': 'form-control'}),
-            'docente': forms.Select(attrs={'class': 'form-control'}),
-            'codigo': forms.TextInput(attrs={'class': 'form-control'}),
+            'docentes': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Widget para selección múltiple
         }
+
+    docentes = forms.ModelMultipleChoiceField(
+        queryset=Docentes.objects.all(),  # Obtén todos los docentes
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+        label="Docentes",
+    )
 
 
 #FORMS DE NOTAS

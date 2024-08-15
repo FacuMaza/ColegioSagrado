@@ -4,12 +4,7 @@ from django.utils import timezone
 
 # MODELO PARA LA CARGA EL USUARIO CON ROL
 
-class UsuarioRol(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    rol = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.rol
 
 
 # MODELO PARA LA CARGA EL TIPO DE CURSO
@@ -178,7 +173,7 @@ class Docentes(models.Model):
 class CursoMateria(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE) 
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, default=None)
+    docentes = models.ManyToManyField(Docentes, related_name='curso_materias')
     codigo = models.CharField(max_length=50)
 
     def _str_(self):
@@ -228,7 +223,13 @@ class Notas(models.Model):
 
 
 
+class UsuarioRol(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    rol = models.CharField(max_length=100)
+    docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, null=True, blank=True)  # Nuevo campo
 
+    def __str__(self):
+        return self.rol
 
 
 

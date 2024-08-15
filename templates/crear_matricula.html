@@ -2,5 +2,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    {% if es_creacion %}
+        <button type="submit">Guardar</button>
+    {% endif %}
 </form>

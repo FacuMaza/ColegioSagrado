@@ -33,7 +33,7 @@ urlpatterns = [
     path('anadircurso/', views.anadircurso, name= "anadircurso"), #ANADIRCURSOS
     path('cursos/<int:curso_id>/', views.detalle_curso, name='detalle_curso'), #DETALLE DE CURSOS
 
-
+    
 
     path('configuracion/', views.configuracion, name= "configuracion"),
 
