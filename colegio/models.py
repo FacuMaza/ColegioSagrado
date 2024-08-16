@@ -169,15 +169,15 @@ class Docentes(models.Model):
 
 
 # MODELO PARA RELACIONAR CURSO MATERIA 
-
 class CursoMateria(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE) 
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    docentes = models.ManyToManyField(Docentes, related_name='curso_materias')
+    docentes = models.ForeignKey(Docentes, on_delete=models.CASCADE,default=None)
     codigo = models.CharField(max_length=50)
 
     def _str_(self):
         return f"{self.materia}"
+
     
 
 # MODELO PARA CARGAR MATRICULAS
@@ -245,5 +245,5 @@ class UsuarioRol(models.Model):
 
 
 class MateriaAlumno(models.Model):
-    cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE)
+    id_cursomateria = models.ForeignKey(CursoMateria, on_delete=models.CASCADE, default=None)
     matricula = models.ForeignKey(Matriculas, on_delete=models.CASCADE)

@@ -68,52 +68,50 @@
     </header>
     
     <div class="container mt-5">
-        {% if request.session.rol == 'administrador' %}
-        
-        <div class="title-block">
-            <h1 class="text-center">Lista de Cursos</h1> 
-        </div> 
-        <div class="table-container">
-            <table class="table table-striped table-bordered text-center" style="width: 100%;">
-
-                <tbody>
-                    {% for curso in cursos %}
-                    <tr>
-                        <td>
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='{% url 'detalle_curso' curso.id_curso %}';">
-                                {{ curso.descripcion }} ({{ curso.color }})
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% elif request.session.rol == 'docente' %}
-        <div class="title-block">
-            <h1 class="text-center">Lista de Cursos y Materias Asignados</h1> 
-        </div>
-        <div class="table-container">
-            <table class="table table-striped table-bordered text-center" style="width: 100%;">
-                <tbody>
-                    {% for curso_materia in cursos %}
+        {% if request.session.rol == 'docente' %}
+            <div class="title-block">
+                <h1 class="text-center">Lista de Cursos Asignados</h1> 
+            </div> 
+            {% if cursos %}
+                <div class="table-container">
+                    <table class="table table-striped table-bordered text-center" style="width: 100%;">
+                        <tbody>
+                            {% for curso in cursos %}
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-primary" onclick="window.location.href='{% url 'detalle_curso' curso.id_curso %}';">
+                                        {{ curso.descripcion }} ({{ curso.color }})
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">No tienes cursos asignados.</p>
+            {% endif %}
+        {% elif request.session.rol == 'administrador' %}
+            <div class="title-block">
+                <h1 class="text-center">Lista de Cursos</h1> 
+            </div> 
+            <div class="table-container">
+                <table class="table table-striped table-bordered text-center" style="width: 100%;">
+                    <tbody>
+                        {% for curso in cursos %}
                         <tr>
                             <td>
-                                <button type="button" class="btn btn-primary" onclick="window.location.href='{% url 'detalle_curso' curso_materia.curso.id_curso %}';">
-                                    {{ curso_materia.curso.descripcion }} ({{ curso_materia.curso.color }})
+                                <button type="button" class="btn btn-primary" onclick="window.location.href='{% url 'detalle_curso' curso.id_curso %}';">
+                                    {{ curso.descripcion }} ({{ curso.color }})
                                 </button>
                             </td>
-                            <td>
-                                {{ curso_materia.materia }}
-                            </td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {%endif%}
-
-</div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>

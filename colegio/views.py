@@ -46,28 +46,71 @@ def familias(request):
     familia = Familias.objects.all()
     return render(request, "familias.html", {'familia': familia})
 
+
+@login_required(login_url='login')
 def cursos(request):
-    if request.session.get('rol') == 'docente':
-        # Obtén el usuario docente actual
-        docente_actual = request.session.get('id_docente')  # Asegúrate que 'id_docente' esté en la sesión
-        
-        # Obtén los cursos y materias asignados al docente actual
-        cursos_docente = CursoMateria.objects.filter(docentes__id_docentes=docente_actual) \
-                                             .select_related('curso', 'materia') \
-                                             .distinct()
-        context = {
-            'cursos': cursos_docente,
-        }
-        return render(request, 'cursos.html', context)
-    elif request.session.get('rol') == 'administrador':
-        cursos = Curso.objects.all()
-        context = {
-            'cursos': cursos,
-        }
-        return render(request, 'cursos.html', context)
+    # Obtener el usuario actual
+    user = request.user
+    
+    # Obtener el objeto UsuarioRol asociado al usuario actual
+    usuario_rol = user.usuariorol_set.first() 
+
+    # Obtener los cursos a los que está asignado el docente
+    if usuario_rol and usuario_rol.rol == 'docente':
+        # Utiliza el docente relacionado con el UsuarioRol para filtrar CursoMateria
+        cursos_docente = CursoMateria.objects.filter(docentes=usuario_rol.docente)
+        # Obtener los cursos distintos
+        cursos_distintos = cursos_docente.values('curso').distinct()
+        # Obtener los objetos de Curso
+        cursos = Curso.objects.filter(pk__in=[curso['curso'] for curso in cursos_distintos])
     else:
-        # Maneja el caso de que el usuario no tenga un rol válido
-        return redirect('login')  # Redirige al login
+        # Si no es un docente, muestra todos los cursos (debes decidir qué hacer aquí)
+        cursos = Curso.objects.all()  # Puedes mostrar todos los cursos o un mensaje
+
+    context = {
+        'cursos': cursos,
+    }
+    return render(request, 'cursos.html', context)
+
+
+# VIWS PARA CARGAR CURSOS-MATERIAS-DOCENTES
+def anadircursomateriasdocente(request):
+    if request.method == 'POST':
+        form = CursoMateriaForm(request.POST)
+        if form.is_valid():
+            # Obtener el primer docente seleccionado (solo uno)
+            docente_seleccionado = form.cleaned_data.get('docentes')
+
+            # Crea la instancia de CursoMateria
+            cursomateria = form.save(commit=False)
+
+            # Asocia el docente seleccionado
+            cursomateria.docentes = docente_seleccionado  # Asignación directa al ForeignKey
+
+            # Guarda la instancia
+            cursomateria.save()
+            # Redirige a la página de éxito
+            return redirect('cursos') 
+    else:
+        form = CursoMateriaForm()
+    return render(request, 'anadirmaterias.html', {'form': form})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # DETALLES CURSOS
 def detalle_curso(request, curso_id):
@@ -374,15 +417,7 @@ def SignupPage(request):
         return render(request, 'registrarusuario.html', {'docentes': docentes})
 
 
-# VIWS PARA CARGAR CURSOS-MATERIAS-DOCENTES
-def anadircursomateriasdocente(request):
-    if request.method == 'POST':
-        form = CursoMateriaForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = CursoMateriaForm()
-    return render(request, 'anadirmaterias.html', {'form': form})
+
 
 
 

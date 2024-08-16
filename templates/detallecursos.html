@@ -65,7 +65,7 @@
             </div>
           </nav>
     </header>
-{% block content %}
+    {% block content %}
     <div class="container mt-5">
         <div class="title-block"> 
             <h1>
@@ -82,17 +82,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                        {% for materia in materias %}
-                        <tr>
-                            <td>{{materia.materia.id_materia}}</td>
-                            <td><a href="{% url 'gestionar_notas' curso.id_curso %}"> 
-                                <b>{{ materia.materia.descripcion }}</b> 
-                            </a></td>
-                            <td>{{ materia.docente.nombre }}</td>
-                            <td>{{ materia.codigo }}</td>
-                        </tr>
-                        {% endfor %}
-                    {% endblock %}
+                    {% for materia in materias %}
+                    <tr>
+                        <td>{{materia.materia.id_materia}}</td>
+                        <td><a href="{% url 'gestionar_notas' curso.id_curso %}"> 
+                            <b>{{ materia.materia.descripcion }}</b> 
+                        </a></td>
+                        <td>
+                            {% if materia.docentes %}
+                                {{ materia.docentes.nombre }} {{ materia.docentes.apellido }} # Ahora te trae nombre y apellido
+                            {% else %}
+                                Sin docente asignado
+                            {% endif %}
+                        </td>
+                        <td>{{ materia.codigo }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
                 </tbody>
             </table>
         </div>
